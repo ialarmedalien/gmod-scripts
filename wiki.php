@@ -9,6 +9,8 @@
 	Queries the telize server to get geo data.
 
 	Requires simple_html_dom.php, from http://simplehtmldom.sourceforge.net
+
+	script by amelia.ireland@gmod.org
 */
 
 // set this for troubleshooting
@@ -22,7 +24,7 @@ $verbose = false;
 include('simple_html_dom.php');
 
 // local file for storing wiki data (make sure apache can write to the dir!)
-$f_name = '/www/sites/test/wiki_data.json';
+$f_name = '/web/gmod/wiki_data.json';
 $base_url = 'http://gmod.org/mediawiki/api.php?format=json&action=';
 $touch_q  = 'query&titles=GMOD%20Users&prop=info';
 $content_q = 'parse&page=GMOD%20Users';
