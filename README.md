@@ -7,6 +7,8 @@ ipmapper.js
 
 Extended from a geocoding script by Abhinay Rathore,
 http://lab.abhinayrathore.com/ipmapper/
+Takes a range of different inputs (IP addresses, hostnames, lat/long coordinates)
+and plots them on a map.
 
 
 wiki.php
