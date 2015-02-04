@@ -100,8 +100,6 @@ var IPMapper = {
 	//if($.trim(ip) != '' && ipRegex.test(ip)){ //validate IP Address format
 		var url = encodeURI(IPMapper.baseUrl + data.dbhost + "?callback=?"); //geocoding url
 		$.getJSON(url, function(response) { //get Geocoded JSONP data
-			console.log("logging!");
-			alert(response);
 			if($.trim(response.latitude) !== '' && response.latitude !== '0' && !isNaN(response.latitude)) { //Geocoding successful
 				$.extend(data, response);
 				if ('region_name' in data) {
@@ -116,32 +114,29 @@ var IPMapper = {
 				$.error('IP Address geocoding failed!');
 			}
 		})
-		.done(function() {
-			console.log( "second success" );
-		})
 		.fail(function() {
-			console.log( "error" );
-			alert("Warning! Error!");
+		//	console.log( "error" );
 		});
 
 	},
 	addMarker: function(data){
-	//	alert('adding marker at ' + response.latitude + ' latitude, ' + response.longitude + ' longitude');
 		//{ city: "Burnaby", country_code: "CA", country: "Canada", latitude: 49.25, longitude: -122.95, region_code: "BC", region: "British Columbia" }
-		var latitude = data.latitude;
-		var longitude = data.longitude;
-		var latlng = new google.maps.LatLng(latitude, longitude);
-		var marker = new google.maps.Marker({ //create Map Marker
-			map: IPMapper.map,
-			draggable: false,
-			position: latlng
-	    });
-		//place Marker on Map
-		var contentString = IPMapper.createInfoBox( data );
-		IPMapper.placeIPMarker(marker, latlng);
-		google.maps.event.addListener(marker, 'click', function() {
-			IPMapper.getIPInfoWindowEvent(marker, contentString);
-		});
+		if ('latitude' in data && 'longitude' in data) {
+			var latitude = data.latitude;
+			var longitude = data.longitude;
+			var latlng = new google.maps.LatLng(latitude, longitude);
+			var marker = new google.maps.Marker({ //create Map Marker
+				map: IPMapper.map,
+				draggable: false,
+				position: latlng
+		    });
+			//place Marker on Map
+			var contentString = IPMapper.createInfoBox( data );
+			IPMapper.placeIPMarker(marker, latlng);
+			google.maps.event.addListener(marker, 'click', function() {
+				IPMapper.getIPInfoWindowEvent(marker, contentString);
+			});
+		}
 	},
 	placeIPMarker: function(marker, latlng){ //place Marker on Map
 		marker.setPosition(latlng);
@@ -155,9 +150,6 @@ var IPMapper = {
 	createInfoBox: function(data){
 		// stuff from the IP Geocoder
 		var options = IPMapper.opt;
-//		if (typeof options == 'undefined')
-//		{	options = IPMapper.opt;
-//		}
 		var titStr = "";
 		var str = "";
 		var arr = ['city','region','country'];
@@ -167,7 +159,7 @@ var IPMapper = {
 			if (typeof data.url == 'undefined' || data.url.length === 0)
 			{	// crap! no proper url
 			//	titStr = "<h4><a href='http://" + db.base + "'>";
-				alert("Could not find a proper URL for object!");
+//				alert("Could not find a proper URL for object!");
 			}
 			else
 			{	titStr = "<h4 style='background: url(https://plus.google.com/_/favicon?domain=" + data.dbhost +
